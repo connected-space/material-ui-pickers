@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from 'material-ui/styles/withStyles';
 
@@ -192,7 +192,7 @@ export class Calendar extends Component {
     const { classes, utils } = this.props;
 
     return (
-      <Fragment>
+      <div>
         <EventListener target="window" onKeyDown={this.handleKeyDown} />
 
         <CalendarHeader
@@ -204,7 +204,7 @@ export class Calendar extends Component {
         />
 
         <div className={classes.calendar}>{this.renderWeeks()}</div>
-      </Fragment>
+      </div>
     );
   }
 }

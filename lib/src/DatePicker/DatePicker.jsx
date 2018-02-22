@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
@@ -86,7 +86,7 @@ export class DatePicker extends PureComponent {
     const { showYearSelection } = this.state;
 
     return (
-      <Fragment>
+      <div>
         <PickerToolbar>
           <ToolbarButton
             variant="subheading"
@@ -133,10 +133,9 @@ export class DatePicker extends PureComponent {
                 shouldDisableDate={shouldDisableDate}
               />
         }
-      </Fragment>
+      </div>
     );
   }
 }
 
 export default DatePicker;
-
