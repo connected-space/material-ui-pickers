@@ -1,3 +1,7 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
@@ -7,77 +11,83 @@ import Dialog from 'material-ui/Dialog/Dialog';
 import DialogActions from 'material-ui/Dialog/DialogActions';
 import DialogContent from 'material-ui/Dialog/DialogContent';
 
-const dialogWidth = 310;
-const styles = {
+var dialogWidth = 310;
+var styles = {
   dialogRoot: {
-    minWidth: dialogWidth,
+    minWidth: dialogWidth
   },
   dialog: {
     width: dialogWidth,
 
     '&:first-child': {
-      padding: 0,
-    },
+      padding: 0
+    }
   },
   dialogActions: {
     '&:first-child': {
-      marginRight: 'auto',
-    },
-  },
+      marginRight: 'auto'
+    }
+  }
 };
 
-const ModalDialog = ({
-  children,
-  classes,
-  onAccept,
-  onDismiss,
-  onClear,
-  okLabel,
-  cancelLabel,
-  clearLabel,
-  dialogContentClassName,
-  clearable,
-  ...other
-}) => (
-  <Dialog onClose={onDismiss} classes={{ paper: classes.dialogRoot }} {...other}>
-    <DialogContent className={classnames(classes.dialog, dialogContentClassName)}>
-      { children }
-    </DialogContent>
+var ModalDialog = function ModalDialog(_ref) {
+  var children = _ref.children,
+      classes = _ref.classes,
+      onAccept = _ref.onAccept,
+      onDismiss = _ref.onDismiss,
+      onClear = _ref.onClear,
+      okLabel = _ref.okLabel,
+      cancelLabel = _ref.cancelLabel,
+      clearLabel = _ref.clearLabel,
+      dialogContentClassName = _ref.dialogContentClassName,
+      clearable = _ref.clearable,
+      other = _objectWithoutProperties(_ref, ['children', 'classes', 'onAccept', 'onDismiss', 'onClear', 'okLabel', 'cancelLabel', 'clearLabel', 'dialogContentClassName', 'clearable']);
 
-    <DialogActions
-      classes={{
-        action: clearable && classes.dialogActions,
-      }}
-    >
-
-      { clearable &&
-        <Button
-          color="primary"
-          onClick={onClear}
-          aria-label={clearLabel}
-        >
-          { clearLabel }
-        </Button>
-      }
-      <Button
-        color="primary"
-        onClick={onDismiss}
-        aria-label={cancelLabel}
-      >
-        { cancelLabel }
-      </Button>
-
-      <Button
-        color="primary"
-        onClick={onAccept}
-        aria-label={okLabel}
-      >
-        { okLabel }
-      </Button>
-    </DialogActions>
-  </Dialog>
-);
-
+  return React.createElement(
+    Dialog,
+    _extends({ onClose: onDismiss, classes: { paper: classes.dialogRoot } }, other),
+    React.createElement(
+      DialogContent,
+      { className: classnames(classes.dialog, dialogContentClassName) },
+      children
+    ),
+    React.createElement(
+      DialogActions,
+      {
+        classes: {
+          action: clearable && classes.dialogActions
+        }
+      },
+      clearable && React.createElement(
+        Button,
+        {
+          color: 'primary',
+          onClick: onClear,
+          'aria-label': clearLabel
+        },
+        clearLabel
+      ),
+      React.createElement(
+        Button,
+        {
+          color: 'primary',
+          onClick: onDismiss,
+          'aria-label': cancelLabel
+        },
+        cancelLabel
+      ),
+      React.createElement(
+        Button,
+        {
+          color: 'primary',
+          onClick: onAccept,
+          'aria-label': okLabel
+        },
+        okLabel
+      )
+    )
+  );
+};
 
 ModalDialog.propTypes = {
   children: PropTypes.node.isRequired,
@@ -89,14 +99,14 @@ ModalDialog.propTypes = {
   okLabel: PropTypes.string,
   cancelLabel: PropTypes.string,
   clearLabel: PropTypes.string,
-  clearable: PropTypes.bool.isRequired,
+  clearable: PropTypes.bool.isRequired
 };
 
 ModalDialog.defaultProps = {
   dialogContentClassName: '',
   okLabel: 'OK',
   cancelLabel: 'Cancel',
-  clearLabel: 'Clear',
+  clearLabel: 'Clear'
 };
 
 export default withStyles(styles, { name: 'MuiPickersModal' })(ModalDialog);

@@ -6,82 +6,90 @@ import ToolbarButton from '../_shared/ToolbarButton';
 import * as viewType from '../constants/date-picker-view';
 import * as defaultUtils from '../utils/utils';
 
-export const DateTimePickerHeader = (props) => {
-  const {
-    date, classes, openView, meridiemMode, onOpenViewChange, setMeridiemMode,
-    theme, utils, ampm,
-  } = props;
+export var DateTimePickerHeader = function DateTimePickerHeader(props) {
+  var date = props.date,
+      classes = props.classes,
+      openView = props.openView,
+      meridiemMode = props.meridiemMode,
+      onOpenViewChange = props.onOpenViewChange,
+      setMeridiemMode = props.setMeridiemMode,
+      theme = props.theme,
+      utils = props.utils,
+      ampm = props.ampm;
 
-  const changeOpenView = view => () => onOpenViewChange(view);
 
-  const rtl = theme.direction === 'rtl';
-  const hourMinuteClassname = rtl
-    ? classes.hourMinuteLabelReverse
-    : classes.hourMinuteLabel;
+  var changeOpenView = function changeOpenView(view) {
+    return function () {
+      return onOpenViewChange(view);
+    };
+  };
 
-  return (
-    <PickerToolbar className={classes.toolbar}>
-      <div className={classes.dateHeader}>
-        <ToolbarButton
-          variant="subheading"
-          onClick={changeOpenView(viewType.YEAR)}
-          selected={openView === viewType.YEAR}
-          label={utils.getYearText(date)}
-        />
+  var rtl = theme.direction === 'rtl';
+  var hourMinuteClassname = rtl ? classes.hourMinuteLabelReverse : classes.hourMinuteLabel;
 
-        <ToolbarButton
-          variant="display1"
-          onClick={changeOpenView(viewType.DATE)}
-          selected={openView === viewType.DATE}
-          label={utils.getDateTimePickerHeaderText(date)}
-        />
-      </div>
-
-      <div className={classes.timeHeader}>
-        <div className={hourMinuteClassname}>
-          <ToolbarButton
-            variant="display2"
-            onClick={changeOpenView(viewType.HOUR)}
-            selected={openView === viewType.HOUR}
-            label={utils.getHourText(date, ampm)}
-          />
-
-          <ToolbarButton
-            variant="display2"
-            label=":"
-            selected={false}
-            className={classes.separator}
-          />
-
-          <ToolbarButton
-            variant="display2"
-            onClick={changeOpenView(viewType.MINUTES)}
-            selected={openView === viewType.MINUTES}
-            label={utils.getMinuteText(date)}
-          />
-        </div>
-
-        {
-          ampm &&
-            <div className={classes.ampmSelection}>
-              <ToolbarButton
-                className={classes.ampmLabel}
-                selected={meridiemMode === 'am'}
-                type="subheading"
-                label={utils.getMeridiemText('am')}
-                onClick={setMeridiemMode('am')}
-              />
-              <ToolbarButton
-                className={classes.ampmLabel}
-                selected={meridiemMode === 'pm'}
-                type="subheading"
-                label={utils.getMeridiemText('pm')}
-                onClick={setMeridiemMode('pm')}
-              />
-            </div>
-        }
-      </div>
-    </PickerToolbar>
+  return React.createElement(
+    PickerToolbar,
+    { className: classes.toolbar },
+    React.createElement(
+      'div',
+      { className: classes.dateHeader },
+      React.createElement(ToolbarButton, {
+        variant: 'subheading',
+        onClick: changeOpenView(viewType.YEAR),
+        selected: openView === viewType.YEAR,
+        label: utils.getYearText(date)
+      }),
+      React.createElement(ToolbarButton, {
+        variant: 'display1',
+        onClick: changeOpenView(viewType.DATE),
+        selected: openView === viewType.DATE,
+        label: utils.getDateTimePickerHeaderText(date)
+      })
+    ),
+    React.createElement(
+      'div',
+      { className: classes.timeHeader },
+      React.createElement(
+        'div',
+        { className: hourMinuteClassname },
+        React.createElement(ToolbarButton, {
+          variant: 'display2',
+          onClick: changeOpenView(viewType.HOUR),
+          selected: openView === viewType.HOUR,
+          label: utils.getHourText(date, ampm)
+        }),
+        React.createElement(ToolbarButton, {
+          variant: 'display2',
+          label: ':',
+          selected: false,
+          className: classes.separator
+        }),
+        React.createElement(ToolbarButton, {
+          variant: 'display2',
+          onClick: changeOpenView(viewType.MINUTES),
+          selected: openView === viewType.MINUTES,
+          label: utils.getMinuteText(date)
+        })
+      ),
+      ampm && React.createElement(
+        'div',
+        { className: classes.ampmSelection },
+        React.createElement(ToolbarButton, {
+          className: classes.ampmLabel,
+          selected: meridiemMode === 'am',
+          type: 'subheading',
+          label: utils.getMeridiemText('am'),
+          onClick: setMeridiemMode('am')
+        }),
+        React.createElement(ToolbarButton, {
+          className: classes.ampmLabel,
+          selected: meridiemMode === 'pm',
+          type: 'subheading',
+          label: utils.getMeridiemText('pm'),
+          onClick: setMeridiemMode('pm')
+        })
+      )
+    )
   );
 };
 
@@ -94,53 +102,55 @@ DateTimePickerHeader.propTypes = {
   onOpenViewChange: PropTypes.func.isRequired,
   setMeridiemMode: PropTypes.func.isRequired,
   utils: PropTypes.object,
-  ampm: PropTypes.bool,
+  ampm: PropTypes.bool
 };
 
 DateTimePickerHeader.defaultProps = {
   utils: defaultUtils,
-  ampm: true,
+  ampm: true
 };
 
-const styles = () => ({
-  toolbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  separator: {
-    margin: '0 4px 0 2px',
-    cursor: 'default',
-  },
-  ampmSelection: {
-    marginLeft: 10,
-    marginRight: -10,
-  },
-  ampmLabel: {
-    fontSize: 18,
-  },
-  hourMinuteLabel: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-  hourMinuteLabelReverse: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    flexDirection: 'row-reverse',
-  },
-  dateHeader: {
-    width: '42%',
-    height: 65,
-  },
-  timeHeader: {
-    height: 65,
-    display: 'flex',
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-  },
-});
+var styles = function styles() {
+  return {
+    toolbar: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingLeft: 16,
+      paddingRight: 16
+    },
+    separator: {
+      margin: '0 4px 0 2px',
+      cursor: 'default'
+    },
+    ampmSelection: {
+      marginLeft: 10,
+      marginRight: -10
+    },
+    ampmLabel: {
+      fontSize: 18
+    },
+    hourMinuteLabel: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end'
+    },
+    hourMinuteLabelReverse: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+      flexDirection: 'row-reverse'
+    },
+    dateHeader: {
+      width: '42%',
+      height: 65
+    },
+    timeHeader: {
+      height: 65,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end'
+    }
+  };
+};
 
 export default withStyles(styles, { withTheme: true })(DateTimePickerHeader);

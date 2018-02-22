@@ -8,7 +8,7 @@ import Tab from 'material-ui/Tabs/Tab';
 import Icon from 'material-ui/Icon';
 import * as viewType from '../constants/date-picker-view';
 
-const viewToTabIndex = (openView) => {
+var viewToTabIndex = function viewToTabIndex(openView) {
   if (openView === viewType.DATE || openView === viewType.YEAR) {
     return 'date';
   }
@@ -16,7 +16,7 @@ const viewToTabIndex = (openView) => {
   return 'time';
 };
 
-const tabIndexToView = (tab) => {
+var tabIndexToView = function tabIndexToView(tab) {
   if (tab === 'date') {
     return viewType.DATE;
   }
@@ -24,36 +24,45 @@ const tabIndexToView = (tab) => {
   return viewType.HOUR;
 };
 
-export const DateTimePickerTabs = (props) => {
-  const {
-    view,
-    onChange,
-    classes,
-    theme,
-    dateRangeIcon,
-    timeIcon,
-  } = props;
+export var DateTimePickerTabs = function DateTimePickerTabs(props) {
+  var view = props.view,
+      onChange = props.onChange,
+      classes = props.classes,
+      theme = props.theme,
+      dateRangeIcon = props.dateRangeIcon,
+      timeIcon = props.timeIcon;
 
-  const indicatorColor = theme.palette.type === 'light' ? 'secondary' : 'primary';
-  const handleChange = (e, value) => {
+
+  var indicatorColor = theme.palette.type === 'light' ? 'secondary' : 'primary';
+  var handleChange = function handleChange(e, value) {
     if (value !== viewToTabIndex(view)) {
       onChange(tabIndexToView(value));
     }
   };
 
-  return (
-    <Paper>
-      <Tabs
-        fullWidth
-        value={viewToTabIndex(view)}
-        onChange={handleChange}
-        className={classes.tabs}
-        indicatorColor={indicatorColor}
-      >
-        <Tab value="date" icon={<Icon>{dateRangeIcon}</Icon>} />
-        <Tab value="time" icon={<Icon>{timeIcon}</Icon>} />
-      </Tabs>
-    </Paper>
+  return React.createElement(
+    Paper,
+    null,
+    React.createElement(
+      Tabs,
+      {
+        fullWidth: true,
+        value: viewToTabIndex(view),
+        onChange: handleChange,
+        className: classes.tabs,
+        indicatorColor: indicatorColor
+      },
+      React.createElement(Tab, { value: 'date', icon: React.createElement(
+          Icon,
+          null,
+          dateRangeIcon
+        ) }),
+      React.createElement(Tab, { value: 'time', icon: React.createElement(
+          Icon,
+          null,
+          timeIcon
+        ) })
+    )
   );
 };
 
@@ -63,21 +72,21 @@ DateTimePickerTabs.propTypes = {
   classes: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired,
   dateRangeIcon: PropTypes.node,
-  timeIcon: PropTypes.node,
+  timeIcon: PropTypes.node
 };
 
 DateTimePickerTabs.defaultProps = {
   dateRangeIcon: 'date_range',
-  timeIcon: 'access_time',
+  timeIcon: 'access_time'
 };
 
-const styles = theme => ({
-  tabs: {
-    color: theme.palette.common.white,
-    backgroundColor: theme.palette.type === 'light'
-      ? theme.palette.primary.main
-      : theme.palette.background.default,
-  },
-});
+var styles = function styles(theme) {
+  return {
+    tabs: {
+      color: theme.palette.common.white,
+      backgroundColor: theme.palette.type === 'light' ? theme.palette.primary.main : theme.palette.background.default
+    }
+  };
+};
 
 export default withTheme()(withStyles(styles, { name: 'MuiPickerDTTabs' })(DateTimePickerTabs));
